@@ -45,7 +45,7 @@ exports.default = new forgescript_1.NativeFunction({
             return this.customError(__1.ForgeCanvasError.NoCanvas);
         if (!path)
             return this.customError(__1.ForgeCanvasError.NoPath);
-        const format = `image/${(typeof f === 'number' ? __1.ImageFormat[f] : f) ?? 'png'}`;
+        const format = (typeof f === 'number' ? __1.ImageFormat[f] : f) ?? 'png';
         if (path.startsWith('images://')) {
             if (!ctx.imageManager)
                 ctx.imageManager = new __1.ImageManager();
