@@ -233,7 +233,7 @@ async function resolveImage(self, ctx, src) {
                 img = `data:image/svg+xml;base64,${Buffer.from(src)?.toString('base64')}`;
             else if (exports.httpsRegex.test(src)) {
                 const { statusCode, body } = await (0, undici_1.request)(src, {
-                    headers: { 'User-Agent': 'Mozilla/5.0 () Gecko/20100101 Firefox/147.0' }
+                    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36' }
                 });
                 if (statusCode >= 400)
                     return self.customError(`Failed to fetch image: ${src} (${statusCode})`);
