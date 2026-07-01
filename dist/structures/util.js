@@ -228,8 +228,17 @@ async function resolveImage(self, ctx, src) {
             img = await canvas.encode(__1.ImageFormat.png);
             break;
         }
-        default: if (src?.includes('<svg'))
-            img = `data:image/svg+xml;base64,${Buffer.from(src)?.toString('base64')}`;
+        default:
+            if (src?.includes('<svg'))
+                img = `data:image/svg+xml;base64,${Buffer.from(src)?.toString('base64')}`;
+            else if (exports.httpsRegex.test(src)) {
+                const { statusCode, body } = await (0, undici_1.request)(src, {
+                    headers: { 'User-Agent': 'Mozilla/5.0 () Gecko/20100101 Firefox/147.0' }
+                });
+                if (statusCode >= 400)
+                    return self.customError(`Failed to fetch image: ${src} (${statusCode})`);
+                img = Buffer.from(await body.arrayBuffer());
+            }
     }
     return await (0, canvas_1.loadImage)(img, ctx.imageManager?.loadOptions ?? ctx.client.preloadImages?.loadOptions)
         .catch((e) => self.customError(e.toString()));
